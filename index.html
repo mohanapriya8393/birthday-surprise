@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#eef8ff">
+<meta name="description" content="A little birthday surprise. Tap the balloons to discover the story.">
+<title>A Little Surprise Awaits</title>
+
+<!-- Elegant fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --sky:#dff4ff;
+  --sky2:#bfe8fb;
+  --blue:#79c9ec;
+  --gold:#e8c36a;
+  --gold2:#f7df9a;
+  --ink:#23343f;
+  --muted:#62737d;
+  --white:#fff;
+  --shadow:0 24px 60px rgba(45,91,115,.16);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100%;font-family:Inter,sans-serif;color:var(--ink)}
+body{
+  background:
+    radial-gradient(circle at 50% 5%, rgba(255,255,255,.98) 0 13%, transparent 38%),
+    linear-gradient(180deg,#fafdff 0%,#eaf8ff 48%,#fffdf7 100%);
+  overflow-x:hidden;
+}
+
+/* Soft luxury light */
+body:before{
+  content:"";
+  position:fixed; inset:-30%;
+  pointer-events:none;
+  background:radial-gradient(circle at 50% 22%,rgba(255,221,121,.22),transparent 28%);
+  animation:sunPulse 7s ease-in-out infinite;
+}
+@keyframes sunPulse{50%{transform:scale(1.08);opacity:.65}}
+
+.app{position:relative;min-height:100svh;overflow:hidden}
+.screen{min-height:100svh;position:relative;padding:18px 18px 34px;display:none}
+.screen.active{display:block}
+
+/* Intro */
+.brand{
+  text-align:center;
+  font-family:"Cormorant Garamond",serif;
+  font-size:14px;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:#6d7f88;
+  padding-top:max(8px,env(safe-area-inset-top));
+}
+.hero{
+  text-align:center;
+  margin:5vh auto 0;
+  max-width:650px;
+}
+.kicker{
+  font-size:11px;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:#a07d31;
+  margin-bottom:10px;
+}
+.hero h1{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(44px,13vw,82px);
+  line-height:.82;
+  font-weight:500;
+  margin:0;
+  color:#243943;
+}
+.hero h1 span{display:block}
+.hero p{
+  margin:20px auto 0;
+  max-width:330px;
+  font-size:13px;
+  line-height:1.75;
+  color:var(--muted);
+}
+
+/* Sun */
+.sun{
+  position:absolute;
+  top:7vh; left:50%;
+  transform:translateX(-50%);
+  width:170px;height:170px;border-radius:50%;
+  background:radial-gradient(circle,#fffbe8 0 28%,#f8dc82 42%,rgba(248,220,130,.22) 65%,transparent 72%);
+  filter:blur(.2px);
+  opacity:.72;
+  pointer-events:none;
+}
+
+/* Baby stage */
+.stage{
+  width:min(92vw,520px);
+  height:min(64vh,560px);
+  min-height:390px;
+  margin:22px auto 0;
+  position:relative;
+}
+.baby{
+  position:absolute;
+  left:50%; bottom:4%;
+  transform:translateX(-50%);
+  width:min(52vw,245px);
+  height:min(52vw,245px);
+  border-radius:50%;
+  display:grid;place-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 35%,#fff 0 23%,transparent 24%),
+    linear-gradient(145deg,#fff,#d9f1fb);
+  border:7px solid rgba(255,255,255,.78);
+  box-shadow:0 18px 48px rgba(78,129,153,.20);
+  z-index:5;
+}
+.baby img{width:100%;height:100%;object-fit:cover;display:block}
+.baby .placeholder{
+  text-align:center;padding:20px;color:#7c929d;
+  font-family:"Cormorant Garamond",serif;font-size:24px;line-height:1.05;
+}
+.baby .placeholder small{display:block;font:10px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;margin-top:10px}
+
+/* Balloons */
+.balloon{
+  position:absolute;
+  width:clamp(88px,22vw,118px);
+  height:clamp(112px,28vw,148px);
+  border-radius:50% 50% 47% 47%;
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:
+    inset -13px -17px 24px rgba(0,0,0,.05),
+    inset 14px 12px 22px rgba(255,255,255,.75),
+    0 18px 35px rgba(52,95,113,.16);
+  z-index:8;
+  transition:transform .35s ease,filter .35s ease;
+  animation:float 4.8s ease-in-out infinite;
+  -webkit-tap-highlight-color:transparent;
+}
+.balloon:after{
+  content:"";
+  position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);
+  width:12px;height:12px;
+  clip-path:polygon(50% 100%,0 0,100% 0);
+  background:inherit;
+}
+.balloon:before{
+  content:"";
+  position:absolute;
+  width:22%;height:12%;
+  border-radius:50%;
+  top:13%;left:17%;
+  background:rgba(255,255,255,.72);
+  transform:rotate(-22deg);
+}
+.balloon:hover{transform:scale(1.06)}
+.balloon:active{transform:scale(.96)}
+.balloon .label{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:16px 9px 12px;
+  font-family:"Cormorant Garamond",serif;
+  font-weight:600;font-size:clamp(15px,4vw,19px);
+  line-height:1.05;color:#29404b;
+  text-shadow:0 1px 0 #fff;
+}
+.b1{left:2%;top:10%;background:radial-gradient(circle at 32% 20%,#fff 0 7%,transparent 8%),linear-gradient(135deg,#fff,#e8f8ff);animation-delay:-.5s}
+.b2{right:2%;top:9%;background:radial-gradient(circle at 32% 20%,#fff 0 7%,transparent 8%),linear-gradient(135deg,#dff6ff,#aee0f7);animation-delay:-2s}
+.b3{left:5%;bottom:14%;background:radial-gradient(circle at 32% 20%,#fff 0 7%,transparent 8%),linear-gradient(135deg,#fff9df,#f3d37a);animation-delay:-3.1s}
+.b4{right:5%;bottom:13%;background:radial-gradient(circle at 32% 20%,#fff 0 7%,transparent 8%),linear-gradient(135deg,#fff,#d5f0fb);animation-delay:-1.7s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+
+.hint{
+  position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);
+  width:100%;text-align:center;
+  font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#7a8c95;
+}
+.hint:before{content:"✦";color:#d6aa48;margin-right:8px}
+.hint:after{content:"✦";color:#d6aa48;margin-left:8px}
+
+/* Pop animation */
+.balloon.popping{animation:pop .55s forwards!important}
+@keyframes pop{
+  0%{transform:scale(1)}
+  30%{transform:scale(1.12)}
+  100%{transform:scale(.05);opacity:0;filter:blur(6px)}
+}
+.spark{
+  position:fixed;width:7px;height:7px;border-radius:50%;
+  background:#f4cf72;pointer-events:none;z-index:100;
+  animation:spark .8s ease-out forwards;
+}
+@keyframes spark{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+
+/* Content cards */
+.content{
+  width:min(94vw,720px);margin:10vh auto 0;text-align:center;
+}
+.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#a07d31}
+.content h2{
+  font:500 clamp(42px,12vw,70px)/.9 "Cormorant Garamond",serif;
+  margin:12px 0 16px;color:#243943;
+}
+.content p{font-size:13px;line-height:1.8;color:var(--muted);max-width:420px;margin:0 auto 24px}
+.card{
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:28px;padding:18px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+}
+.video-wrap{position:relative;padding-top:56.25%;overflow:hidden;border-radius:20px;background:#d9eef7}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:48px;padding:0 22px;border-radius:999px;
+  border:1px solid rgba(190,150,63,.35);
+  background:linear-gradient(135deg,#fff,#fff7db);
+  color:#70561f;text-decoration:none;
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  box-shadow:0 12px 28px rgba(114,91,40,.12);
+  cursor:pointer;
+}
+.back{
+  position:fixed;left:18px;top:18px;z-index:20;
+  border:0;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);
+  width:42px;height:42px;border-radius:50%;font-size:18px;color:#536a75;cursor:pointer;
+}
+
+/* Map */
+.map-placeholder{
+  min-height:220px;border-radius:22px;
+  display:grid;place-items:center;
+  background:
+    linear-gradient(rgba(223,244,255,.88),rgba(255,249,218,.88)),
+    repeating-linear-gradient(35deg,transparent 0 30px,rgba(255,255,255,.55) 31px 33px);
+  color:#607984;font-family:"Cormorant Garamond",serif;font-size:28px;
+  margin-bottom:16px;
+}
+.details{display:grid;gap:9px;text-align:left;font-size:13px;color:#596c76}
+.details strong{color:#263d47}
+
+/* Journey */
+.journey{display:grid;gap:12px;margin-top:22px}
+.month{
+  display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center;
+  padding:10px;border-radius:20px;background:rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.9);
+}
+.month img{
+  width:64px;height:64px;object-fit:cover;border-radius:16px;background:#e4f5fb;
+}
+.month .ph{
+  width:64px;height:64px;border-radius:16px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#fff,#dff4ff);font:18px "Cormorant Garamond",serif;color:#8a9aa2;
+}
+.month b{font-family:"Cormorant Garamond",serif;font-size:21px;font-weight:600}
+.month span{display:block;font-size:11px;color:#73858d;margin-top:3px}
+
+/* Footer */
+.footer{text-align:center;margin:34px auto 0;color:#87979e;font-size:10px;letter-spacing:.15em;text-transform:uppercase}
+.footer .gold{color:#b48b35}
+
+/* Modal */
+.modal{
+  position:fixed;inset:0;background:rgba(23,39,47,.74);
+  backdrop-filter:blur(12px);z-index:80;display:none;align-items:center;justify-content:center;padding:18px;
+}
+.modal.show{display:flex}
+.modal-card{
+  width:min(94vw,760px);max-height:92svh;overflow:auto;
+  background:linear-gradient(180deg,#fff,#f4fbff);
+  border-radius:30px;padding:18px;box-shadow:0 30px 90px rgba(0,0,0,.28);
+  position:relative;
+}
+.close{
+  position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;
+  border:1px solid #d8e4e8;background:#fff;cursor:pointer;font-size:20px;color:#526771;z-index:2;
+}
+.modal-title{text-align:center;font:500 42px "Cormorant Garamond",serif;margin:10px 38px 18px;color:#263e48}
+.modal-note{text-align:center;font-size:12px;color:#71848d;line-height:1.6;margin:0 10px 16px}
+
+/* Responsive */
+@media(max-width:430px){
+  .hero{margin-top:4vh}
+  .stage{height:58vh;min-height:390px}
+  .baby{width:190px;height:190px}
+  .b1{left:0}.b2{right:0}.b3{left:1%;bottom:12%}.b4{right:1%;bottom:11%}
+  .content{margin-top:8vh}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- HOME -->
+  <section id="home" class="screen active">
+    <div class="sun"></div>
+    <div class="brand">A Little Surprise</div>
+
+    <div class="hero">
+      <div class="kicker">A secret awaits</div>
+      <h1><span>A Little</span><span>Surprise</span></h1>
+      <p>Four little balloons. Four little secrets.<br>Tap one and discover the story.</p>
+    </div>
+
+    <div class="stage" id="stage">
+
+      <!-- Replace baby-placeholder with:
+           <img src="assets/baby.jpg" alt="Birthday boy">
+           See README. -->
+      <div class="baby" aria-label="Birthday boy">
+        <div class="placeholder">
+          YOUR BABY PHOTO
+          <small>Replace this with your image</small>
+        </div>
+      </div>
+
+      <button class="balloon b1" data-action="name" aria-label="Reveal my full name">
+        <span class="label">Do you want<br>to know<br>my full name?</span>
+      </button>
+
+      <button class="balloon b2" data-action="surprise" aria-label="Open little surprise">
+        <span class="label">A Little<br>Surprise<br>for you…</span>
+      </button>
+
+      <button class="balloon b3" data-action="map" aria-label="Open celebration location">
+        <span class="label">Where are<br>we<br>celebrating?</span>
+      </button>
+
+      <button class="balloon b4" data-action="journey" aria-label="Open 12 month journey">
+        <span class="label">My First<br>12 Months</span>
+      </button>
+
+      <div class="hint">Tap a balloon to discover</div>
+    </div>
+
+    <div class="footer"><span class="gold">✦</span> A beautiful little mystery <span class="gold">✦</span></div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section id="journey" class="screen">
+    <button class="back" data-back>‹</button>
+    <div class="content">
+      <div class="eyebrow">A year of little moments</div>
+      <h2>My First<br>12 Months</h2>
+      <p>Twelve little chapters. Countless smiles. One beautiful journey.</p>
+
+      <div class="journey">
+        <!-- Replace each src with your own photo URL/path. -->
+        <div class="month"><div class="ph">01</div><div><b>Month One</b><span>A brand-new beginning ✦</span></div></div>
+        <div class="month"><div class="ph">02</div><div><b>Month Two</b><span>Little smiles, big memories ✦</span></div></div>
+        <div class="month"><div class="ph">03</div><div><b>Month Three</b><span>Growing a little every day ✦</span></div></div>
+        <div class="month"><div class="ph">04</div><div><b>Month Four</b><span>More smiles, more cuddles ✦</span></div></div>
+        <div class="month"><div class="ph">05</div><div><b>Month Five</b><span>Another beautiful chapter ✦</span></div></div>
+        <div class="month"><div class="ph">06</div><div><b>Month Six</b><span>Halfway to the big one ✦</span></div></div>
+        <div class="month"><div class="ph">07</div><div><b>Month Seven</b><span>Little adventures begin ✦</span></div></div>
+        <div class="month"><div class="ph">08</div><div><b>Month Eight</b><span>Growing, laughing, exploring ✦</span></div></div>
+        <div class="month"><div class="ph">09</div><div><b>Month Nine</b><span>Another memory to keep ✦</span></div></div>
+        <div class="month"><div class="ph">10</div><div><b>Month Ten</b><span>So much personality ✦</span></div></div>
+        <div class="month"><div class="ph">11</div><div><b>Month Eleven</b><span>Almost one… ✦</span></div></div>
+        <div class="month"><div class="ph">12</div><div><b>Month Twelve</b><span>And now… the celebration! 🎂</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map" class="screen">
+    <button class="back" data-back>‹</button>
+    <div class="content">
+      <div class="eyebrow">Come celebrate with us</div>
+      <h2>Find the<br>Celebration</h2>
+      <p>A special day, a special place, and the people we love.</p>
+
+      <div class="card">
+        <div class="map-placeholder">📍 Your Celebration Venue</div>
+
+        <div class="details">
+          <div><strong>Venue:</strong> YOUR VENUE NAME</div>
+          <div><strong>Date:</strong> December 1, 2026</div>
+          <div><strong>Time:</strong> YOUR TIME</div>
+          <div><strong>Address:</strong> YOUR VENUE ADDRESS</div>
+        </div>
+
+        <div style="text-align:center;margin-top:18px">
+          <!-- Replace YOUR_GOOGLE_MAPS_LINK with your actual Maps URL -->
+          <a class="btn" href="YOUR_GOOGLE_MAPS_LINK" target="_blank" rel="noopener">Open in Google Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO MODAL -->
+  <div class="modal" id="videoModal" aria-hidden="true">
+    <div class="modal-card">
+      <button class="close" id="closeModal" aria-label="Close">×</button>
+      <div class="modal-title" id="modalTitle">A Special Message</div>
+      <p class="modal-note" id="modalNote"></p>
+      <div class="video-wrap">
+        <iframe id="videoFrame"
+          src=""
+          title="Birthday video"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/*
+  ============================
+  EDIT THESE 4 VALUES
+  ============================
+
+  Use YouTube VIDEO IDs, not the whole URL.
+  Example:
+  https://www.youtube.com/watch?v=ABC123
+  ID = ABC123
+
+  IMPORTANT:
+  The baby's actual name is NOT written anywhere in this page.
+  Only the NAME_REVEAL_VIDEO_ID knows the secret.
+*/
+const CONFIG = {
+  NAME_REVEAL_VIDEO_ID: "https://youtu.be/Yt8zvabHsw8?si=OBqTWDKvvtGGARWD",
+  SURPRISE_VIDEO_ID: "PASTE_BABY_INVITATION_YOUTUBE_ID",
+  GOOGLE_MAPS_LINK: "PASTE_YOUR_GOOGLE_MAPS_LINK"
+};
+
+const screens = document.querySelectorAll(".screen");
+const modal = document.getElementById("videoModal");
+const frame = document.getElementById("videoFrame");
+const modalTitle = document.getElementById("modalTitle");
+const modalNote = document.getElementById("modalNote");
+
+function go(id){
+  screens.forEach(s => s.classList.toggle("active", s.id === id));
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function burst(button){
+  const r = button.getBoundingClientRect();
+  const cx = r.left + r.width/2;
+  const cy = r.top + r.height/2;
+
+  for(let i=0;i<24;i++){
+    const s=document.createElement("span");
+    s.className="spark";
+    s.style.left=cx+"px";
+    s.style.top=cy+"px";
+    const angle=Math.random()*Math.PI*2;
+    const distance=50+Math.random()*130;
+    s.style.setProperty("--x",Math.cos(angle)*distance+"px");
+    s.style.setProperty("--y",Math.sin(angle)*distance+"px");
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),900);
+  }
+}
+
+function youtubeUrl(id){
+  return "https://www.youtube-nocookie.com/embed/" + id +
+  "?autoplay=1&rel=0&modestbranding=1&playsinline=1";
+}
+
+function openVideo(kind){
+  let id="", title="", note="";
+
+  if(kind==="name"){
+    id=CONFIG.NAME_REVEAL_VIDEO_ID;
+    title="The Secret Name";
+    note="The moment you've been waiting for… ✨";
+  }else{
+    id=CONFIG.SURPRISE_VIDEO_ID;
+    title="A Little Surprise";
+    note="Someone very special has a message for you… 🤍";
+  }
+
+  if(!id || id.startsWith("PASTE_")){
+    alert("Please add the YouTube video ID in CONFIG at the bottom of index.html.");
+    return;
+  }
+
+  modalTitle.textContent=title;
+  modalNote.textContent=note;
+  frame.src=youtubeUrl(id);
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+}
+
+function closeVideo(){
+  modal.classList.remove("show");
+  modal.setAttribute("aria-hidden","true");
+  frame.src="";
+  document.body.style.overflow="";
+}
+
+document.querySelectorAll(".balloon").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const action=btn.dataset.action;
+    burst(btn);
+    btn.classList.add("popping");
+
+    setTimeout(()=>{
+      if(action==="name" || action==="surprise"){
+        openVideo(action);
+      }else if(action==="map"){
+        go("map");
+      }else if(action==="journey"){
+        go("journey");
+      }
+
+      // Re-enable the balloon after navigation/close.
+      setTimeout(()=>btn.classList.remove("popping"),700);
+    },420);
+  });
+});
+
+document.querySelectorAll("[data-back]").forEach(btn=>{
+  btn.addEventListener("click",()=>go("home"));
+});
+
+document.getElementById("closeModal").addEventListener("click",closeVideo);
+
+modal.addEventListener("click",e=>{
+  if(e.target===modal) closeVideo();
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") closeVideo();
+});
+
+/* Set the map button from CONFIG */
+document.querySelector('#map .btn').href = CONFIG.GOOGLE_MAPS_LINK;
+
+/* Prevent accidental navigation if placeholder link is still present */
+document.querySelector('#map .btn').addEventListener("click",e=>{
+  if(CONFIG.GOOGLE_MAPS_LINK.startsWith("PASTE_")){
+    e.preventDefault();
+    alert("Please add your Google Maps link in CONFIG at the bottom of index.html.");
+  }
+});
+</script>
+</body>
+</html>
