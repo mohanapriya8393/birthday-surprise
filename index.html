@@ -408,11 +408,13 @@ body:before{
       <div class="modal-title" id="modalTitle">A Special Message</div>
       <p class="modal-note" id="modalNote"></p>
       <div class="video-wrap">
-        <iframe id="videoFrame"
-          src=""
-          title="Birthday video"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowfullscreen></iframe>
+        <video id="videoPlayer"
+          controls
+          playsinline
+          preload="metadata"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#111;"
+          aria-label="Birthday video">
+        </video>
       </div>
     </div>
   </div>
@@ -425,24 +427,22 @@ body:before{
   EDIT THESE 4 VALUES
   ============================
 
-  Use YouTube VIDEO IDs, not the whole URL.
-  Example:
-  https://www.youtube.com/watch?v=ABC123
-  ID = ABC123
+  Direct MP4 files are used instead of YouTube.
+  Put the two videos inside the assets folder.
 
   IMPORTANT:
   The baby's actual name is NOT written anywhere in this page.
-  Only the NAME_REVEAL_VIDEO_ID knows the secret.
+  The name is revealed only inside the video.
 */
 const CONFIG = {
-  NAME_REVEAL_VIDEO_ID: "https://youtu.be/Yt8zvabHsw8?si=OBqTWDKvvtGGARWD",
-  SURPRISE_VIDEO_ID: "PASTE_BABY_INVITATION_YOUTUBE_ID",
+  NAME_REVEAL_VIDEO: "assets/name-reveal.mp4",
+  SURPRISE_VIDEO: "assets/baby-invitation.mp4",
   GOOGLE_MAPS_LINK: "PASTE_YOUR_GOOGLE_MAPS_LINK"
 };
 
 const screens = document.querySelectorAll(".screen");
 const modal = document.getElementById("videoModal");
-const frame = document.getElementById("videoFrame");
+const player = document.getElementById("videoPlayer");
 const modalTitle = document.getElementById("modalTitle");
 const modalNote = document.getElementById("modalNote");
 
@@ -470,41 +470,46 @@ function burst(button){
   }
 }
 
-function youtubeUrl(id){
-  return "https://www.youtube-nocookie.com/embed/" + id +
-  "?autoplay=1&rel=0&modestbranding=1&playsinline=1";
-}
-
 function openVideo(kind){
-  let id="", title="", note="";
+  let file="", title="", note="";
 
   if(kind==="name"){
-    id=CONFIG.NAME_REVEAL_VIDEO_ID;
+    file=CONFIG.NAME_REVEAL_VIDEO;
     title="The Secret Name";
     note="The moment you've been waiting for… ✨";
   }else{
-    id=CONFIG.SURPRISE_VIDEO_ID;
+    file=CONFIG.SURPRISE_VIDEO;
     title="A Little Surprise";
     note="Someone very special has a message for you… 🤍";
   }
 
-  if(!id || id.startsWith("PASTE_")){
-    alert("Please add the YouTube video ID in CONFIG at the bottom of index.html.");
+  if(!file || file.startsWith("PASTE_")){
+    alert("Please add the video file path in CONFIG at the bottom of index.html.");
     return;
   }
 
   modalTitle.textContent=title;
   modalNote.textContent=note;
-  frame.src=youtubeUrl(id);
+  player.src=file;
   modal.classList.add("show");
   modal.setAttribute("aria-hidden","false");
   document.body.style.overflow="hidden";
+
+  const playPromise = player.play();
+  if(playPromise !== undefined){
+    playPromise.catch(() => {
+      // If autoplay is blocked, the native Play button remains available.
+    });
+  }
 }
+
 
 function closeVideo(){
   modal.classList.remove("show");
   modal.setAttribute("aria-hidden","true");
-  frame.src="";
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
   document.body.style.overflow="";
 }
 
