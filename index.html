@@ -31,8 +31,17 @@ h1 span{display:block}
 .hotspot:focus-visible{outline:3px solid white;box-shadow:0 0 0 6px rgba(188,144,49,.8)}
 .hotspot:after{content:"";position:absolute;inset:2%;border:1px solid rgba(255,255,255,0);border-radius:50%;transition:all .2s ease}
 .hotspot:active:after,.hotspot:focus-visible:after{border-color:rgba(255,255,255,.95);box-shadow:0 0 22px rgba(255,255,255,.65)}
-.hotspot .tag{position:absolute;left:50%;bottom:2%;transform:translate(-50%,100%);line-height:1.1;white-space:nowrap;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(49,81,98,.12);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:#415a66;opacity:0;transition:opacity .2s}
-.artwork:hover .tag,.hotspot:focus-visible .tag{opacity:1}
+.hotspot .tag{
+  position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);
+  width:82%;max-width:140px;padding:0;
+  color:#36566a;text-align:center;line-height:1.18;
+  font-family:Inter,Arial,sans-serif;font-size:clamp(8px,1.9vw,11px);
+  font-weight:600;letter-spacing:.005em;text-transform:none;
+  white-space:normal;background:transparent;border:0;border-radius:0;
+  box-shadow:none;backdrop-filter:none;text-shadow:0 1px 8px rgba(255,255,255,.9),0 0 3px rgba(255,255,255,.75);
+  opacity:1;transition:opacity .2s;pointer-events:none
+}
+.hotspot:active .tag,.hotspot.popping .tag{opacity:0}
 .hotspot.popping{animation:pop .42s ease-in forwards;pointer-events:none}
 @keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.08)}100%{transform:scale(.05);opacity:0}}
 /* Hotspots align to the four balloon shapes in the included portrait image. */
@@ -87,10 +96,10 @@ h2{font:500 clamp(42px,11vw,66px)/.9 "Cormorant Garamond",serif;margin:13px 0 14
 
     <div class="artwork" id="artwork">
       <img src="assets/baby-four-balloons.png" alt="Smiling baby holding four balloons in a dreamy sky-blue and golden setting">
-      <button class="hotspot name-hotspot" data-action="name" aria-label="Tap the pearl balloon to reveal the baby's full name"><span class="tag">The Secret Name</span></button>
-      <button class="hotspot surprise-hotspot" data-action="surprise" aria-label="Tap the sky-blue balloon for a little surprise"><span class="tag">A Little Surprise</span></button>
-      <button class="hotspot map-hotspot" data-action="map" aria-label="Tap the golden balloon to find the celebration venue"><span class="tag">Find the Venue</span></button>
-      <button class="hotspot journey-hotspot" data-action="journey" aria-label="Tap the pearl-blue balloon to see the first 12 months"><span class="tag">My First 12 Months</span></button>
+      <button class="hotspot name-hotspot" data-action="name" aria-label="Tap the pearl balloon to reveal the baby's full name"><span class="tag">Do you want to know my full name?</span></button>
+      <button class="hotspot surprise-hotspot" data-action="surprise" aria-label="Tap the sky-blue balloon for a little surprise"><span class="tag">A little surprise is waiting for you!</span></button>
+      <button class="hotspot map-hotspot" data-action="map" aria-label="Tap the golden balloon to find the celebration venue"><span class="tag">Where will we celebrate?</span></button>
+      <button class="hotspot journey-hotspot" data-action="journey" aria-label="Tap the pearl-blue balloon to see the first 12 months"><span class="tag">Want to see my 12-month journey?</span></button>
     </div>
     <div class="instruction"><span class="sparkle">✦</span> Touch a balloon to open its secret <span class="sparkle">✦</span></div>
     <div class="footer">A little magic, made with <b>love</b>.</div>
