@@ -32,14 +32,33 @@ h1 span{display:block}
 .hotspot:after{content:"";position:absolute;inset:2%;border:1px solid rgba(255,255,255,0);border-radius:50%;transition:all .2s ease}
 .hotspot:active:after,.hotspot:focus-visible:after{border-color:rgba(255,255,255,.95);box-shadow:0 0 22px rgba(255,255,255,.65)}
 .hotspot .tag{
-  position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);
-  width:82%;max-width:140px;padding:0;
-  color:#36566a;text-align:center;line-height:1.18;
-  font-family:Inter,Arial,sans-serif;font-size:clamp(8px,1.9vw,11px);
-  font-weight:600;letter-spacing:.005em;text-transform:none;
-  white-space:normal;background:transparent;border:0;border-radius:0;
-  box-shadow:none;backdrop-filter:none;text-shadow:0 1px 8px rgba(255,255,255,.9),0 0 3px rgba(255,255,255,.75);
-  opacity:1;transition:opacity .2s;pointer-events:none
+  position:absolute;
+  left:50%;
+  top:43%;
+  transform:translate(-50%,-50%);
+  width:76%;
+  max-width:118px;
+  padding:0;
+  color:#36566a;
+  text-align:center;
+  line-height:1.16;
+  font-family:Inter,Arial,sans-serif;
+  font-size:clamp(8px,1.35vw,10px);
+  font-weight:600;
+  letter-spacing:0;
+  text-transform:none;
+  white-space:normal;
+  overflow-wrap:break-word;
+  hyphens:auto;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  backdrop-filter:none;
+  text-shadow:0 1px 7px rgba(255,255,255,.96),0 0 3px rgba(255,255,255,.85);
+  opacity:1;
+  transition:opacity .2s;
+  pointer-events:none;
 }
 .hotspot:active .tag,.hotspot.popping .tag{opacity:0}
 .hotspot.popping{animation:pop .42s ease-in forwards;pointer-events:none}
@@ -49,6 +68,10 @@ h1 span{display:block}
 .surprise-hotspot{left:59%;top:3%;width:38%;height:25%}
 .map-hotspot{left:0%;top:25%;width:33%;height:25%}
 .journey-hotspot{left:68%;top:29%;width:32%;height:24%}
+.name-hotspot .tag{top:43%}
+.surprise-hotspot .tag{top:43%}
+.map-hotspot .tag{top:43%}
+.journey-hotspot .tag{top:43%}
 .instruction{text-align:center;margin:18px auto 0;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#758892;line-height:1.6}
 .instruction .sparkle{color:var(--gold);padding:0 7px}
 .footer{text-align:center;margin:20px auto 0;font:italic 18px "Cormorant Garamond",serif;color:#81939c}
