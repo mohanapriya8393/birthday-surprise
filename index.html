@@ -704,12 +704,12 @@ function openVideo(kind) {
     drivePlayer.style.display = "block";
 
     if (CONFIG.SURPRISE_VIDEO.includes("1_CCjy2-WiWed1xyJp59H-TwprpnmrBnR")) {
+      drivePlayer.src = CONFIG.SURPRISE_VIDEO;
+    } else {
       drivePlayer.src = "";
       alert(
         "Please add your Google Drive video ID in the CONFIG section of index.html."
       );
-    } else {
-      drivePlayer.src = CONFIG.SURPRISE_VIDEO;
     }
   }
 
