@@ -92,7 +92,9 @@ h2{font:500 clamp(42px,11vw,66px)/.9 "Cormorant Garamond",serif;margin:13px 0 14
 .close{position:absolute;right:10px;top:10px;width:38px;height:38px;border-radius:50%;border:1px solid #dce8ec;background:#fff;color:#4e6671;font-size:22px;cursor:pointer;z-index:3}
 .modal-title{text-align:center;font:500 clamp(36px,9vw,54px)/.95 "Cormorant Garamond",serif;margin:4px 40px 12px}
 .modal-note{text-align:center;font-size:11px;line-height:1.6;color:var(--muted);margin:0 auto 15px}
-.map-placeholder{min-height:190px;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#e8f7ff,#fff6d9);font:28px "Cormorant Garamond",serif;color:#6e8791;margin-bottom:16px}
+.map-embed{position:relative;width:100%;aspect-ratio:4/3;min-height:220px;max-height:380px;overflow:hidden;border-radius:20px;margin-bottom:16px;background:linear-gradient(135deg,#e8f7ff,#fff6d9);border:1px solid rgba(255,255,255,.9)}
+.map-embed iframe{display:block;width:100%;height:100%;min-height:220px;border:0}
+@media(min-width:600px){.map-embed{aspect-ratio:16/9}}
 .details{text-align:left;display:grid;gap:10px;font-size:12px;color:#5c707a}
 .details strong{color:#2a414b}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:999px;background:linear-gradient(135deg,#fff,#fff4cf);border:1px solid rgba(183,139,53,.35);box-shadow:0 10px 24px rgba(114,91,40,.1);color:#70551f;text-decoration:none;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-top:18px}
@@ -135,7 +137,7 @@ h2{font:500 clamp(42px,11vw,66px)/.9 "Cormorant Garamond",serif;margin:13px 0 14
       <h2>Find the<br>Celebration</h2>
       <p>A special day, a special place, and the people we love.</p>
       <div class="card">
-        <div class="map-placeholder">✦ The Celebration ✦</div>
+        <div class="map-embed"><iframe title="Map showing the celebration location at Yaa Alif, Velappanchavadi" src="https://maps.google.com/maps?q=13.061075%2C80.140473&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
         <div class="details">
           <div><strong>Venue:</strong> Yaa Alif Party Hall</div>
           <div><strong>Date:</strong> December 1, 2026</div>
