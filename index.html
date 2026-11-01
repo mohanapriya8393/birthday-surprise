@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#eaf7ff">
-<title>A Birthday Adventure</title>
+<title>A Birthday Adventure | Siva Aarush</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,7 +98,7 @@ h1 span { display: block; }
   max-width: 340px;
 }
 
-/* Highly visible instruction */
+/* Clear first-time instruction */
 .tap-prompt {
   width: fit-content;
   max-width: 95%;
@@ -110,19 +110,19 @@ h1 span { display: block; }
   gap: 10px;
   border: 1px solid rgba(183,139,53,.35);
   border-radius: 999px;
-  background: rgba(255,255,255,.88);
+  background: rgba(255,255,255,.9);
   box-shadow: 0 8px 28px rgba(63,100,117,.12);
   color: #36566a;
   text-align: center;
   font-size: 12px;
   font-weight: 700;
-  animation: promptPulse 2.2s ease-in-out infinite;
+  animation: promptPulse 2s ease-in-out infinite;
 }
 
 .tap-prompt .hand {
   display: inline-block;
   font-size: 21px;
-  animation: handPoint 1.2s ease-in-out infinite;
+  animation: handPoint 1s ease-in-out infinite;
 }
 
 @keyframes promptPulse {
@@ -135,7 +135,7 @@ h1 span { display: block; }
   50% { transform: translateY(5px); }
 }
 
-/* Balloon artwork */
+/* Balloon background image */
 .artwork {
   position: relative;
   width: min(100%, 520px);
@@ -165,6 +165,7 @@ h1 span { display: block; }
   border-radius: 28px;
 }
 
+/* Interactive balloon areas */
 .hotspot {
   position: absolute;
   z-index: 2;
@@ -176,20 +177,48 @@ h1 span { display: block; }
   border-radius: 48%;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  animation: hotspotFloat 3.6s ease-in-out infinite;
+  animation: hotspotFloat 1.8s ease-in-out infinite;
 }
 
-.name-hotspot { left: 7%; top: 1.5%; width: 39%; height: 25%; }
-.surprise-hotspot { left: 56%; top: 3%; width: 38%; height: 25%; animation-delay: .5s; }
-.map-hotspot { left: 0%; top: 25%; width: 33%; height: 25%; animation-delay: 1s; }
-.journey-hotspot { left: 71%; top: 29%; width: 29%; height: 24%; animation-delay: 1.5s; }
+.name-hotspot {
+  left: 7%;
+  top: 1.5%;
+  width: 39%;
+  height: 25%;
+  animation-delay: 0s;
+}
 
+.surprise-hotspot {
+  left: 56%;
+  top: 3%;
+  width: 38%;
+  height: 25%;
+  animation-delay: .25s;
+}
+
+.map-hotspot {
+  left: 0%;
+  top: 25%;
+  width: 33%;
+  height: 25%;
+  animation-delay: .5s;
+}
+
+.journey-hotspot {
+  left: 71%;
+  top: 29%;
+  width: 29%;
+  height: 24%;
+  animation-delay: .75s;
+}
+
+/* Faster gentle floating motion */
 @keyframes hotspotFloat {
   0%, 100% { translate: 0 0; }
-  50% { translate: 0 -5px; }
+  50% { translate: 0 -7px; }
 }
 
-/* Gentle golden pulse highlights where to tap */
+/* Golden glowing pulse */
 .hotspot::before {
   content: "";
   position: absolute;
@@ -197,33 +226,56 @@ h1 span { display: block; }
   border: 2px solid rgba(255,255,255,.9);
   border-radius: 50%;
   box-shadow: 0 0 15px rgba(255,224,153,.6);
-  animation: balloonHint 2.5s ease-in-out infinite;
+  animation: balloonHint 1.5s ease-in-out infinite;
   pointer-events: none;
 }
 
-.surprise-hotspot::before { animation-delay: .4s; }
-.map-hotspot::before { animation-delay: .8s; }
-.journey-hotspot::before { animation-delay: 1.2s; }
+.surprise-hotspot::before { animation-delay: .2s; }
+.map-hotspot::before { animation-delay: .4s; }
+.journey-hotspot::before { animation-delay: .6s; }
 
 @keyframes balloonHint {
-  0%, 100% { transform: scale(.97); opacity: .25; }
-  50% { transform: scale(1.03); opacity: .9; }
+  0%, 100% {
+    transform: scale(.95);
+    opacity: .3;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
 }
 
+/* Text inside each balloon */
 .hotspot .tag {
   position: absolute;
   left: 50%;
   top: 43%;
   transform: translate(-50%, -50%);
-  width: 82%;
-  max-width: 125px;
+  width: 86%;
+  max-width: 130px;
   color: #29495d;
   text-align: center;
   line-height: 1.25;
-  font-size: clamp(10px, 1.8vw, 13px);
+  font-size: clamp(9px, 1.8vw, 12px);
   font-weight: 700;
   text-shadow: 0 1px 7px #fff, 0 0 5px #fff;
   pointer-events: none;
+}
+
+/* TAP TO POP hint */
+.pop-hint {
+  display: block;
+  margin-top: 7px;
+  color: #95671a;
+  font-size: clamp(8px, 1.5vw, 10px);
+  font-weight: 800;
+  letter-spacing: .06em;
+  animation: popTextPulse 1s ease-in-out infinite;
+}
+
+@keyframes popTextPulse {
+  0%, 100% { opacity: .65; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
 }
 
 .hotspot:focus-visible {
@@ -231,10 +283,9 @@ h1 span { display: block; }
   box-shadow: 0 0 0 6px rgba(188,144,49,.8);
 }
 
-.hotspot:active {
-  scale: .94;
-}
+.hotspot:active { scale: .94; }
 
+/* Balloon pop animation */
 .hotspot.popping {
   animation: popBalloon .4s ease-in forwards;
   pointer-events: none;
@@ -272,6 +323,7 @@ h1 span { display: block; }
 
 .footer b { font-weight: 500; color: #9c762d; }
 
+/* Back button */
 .back {
   position: fixed;
   top: calc(12px + env(safe-area-inset-top));
@@ -310,6 +362,7 @@ h2 {
   backdrop-filter: blur(12px);
 }
 
+/* Venue map */
 .map-embed {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -356,7 +409,12 @@ h2 {
   margin-top: 18px;
 }
 
-.journey { display: grid; gap: 10px; text-align: left; }
+/* Twelve-month journey */
+.journey {
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
 
 .month {
   display: flex;
@@ -504,33 +562,44 @@ h2 {
     </header>
 
     <div class="tap-prompt" id="tapPrompt">
-      <span class="hand">👇</span>
+      <span class="hand" aria-hidden="true">👇</span>
       <span>Start here! Tap any balloon to pop it</span>
-      <span>🎈</span>
+      <span aria-hidden="true">🎈</span>
     </div>
 
     <div class="artwork">
-      <img src="assets/baby-four-balloons.png"
-           alt="Baby with four balloons">
+      <img src="assets/baby-four-balloons.png" alt="Baby with four balloons">
 
       <button class="hotspot name-hotspot" data-action="name"
-              aria-label="Tap to reveal the baby's full name">
-        <span class="tag">Do you want to know my full name?</span>
+              aria-label="Tap to pop and reveal the baby's full name">
+        <span class="tag">
+          Do you want to know my full name?
+          <span class="pop-hint">👆 TAP TO POP!</span>
+        </span>
       </button>
 
       <button class="hotspot surprise-hotspot" data-action="surprise"
-              aria-label="Tap to watch the birthday surprise">
-        <span class="tag">A little surprise is waiting for you!</span>
+              aria-label="Tap to pop and watch the birthday surprise">
+        <span class="tag">
+          A little surprise is waiting for you!
+          <span class="pop-hint">👆 TAP TO POP!</span>
+        </span>
       </button>
 
       <button class="hotspot map-hotspot" data-action="map"
-              aria-label="Tap to find the celebration venue">
-        <span class="tag">Where will we celebrate?</span>
+              aria-label="Tap to pop and find the celebration venue">
+        <span class="tag">
+          Where will we celebrate?
+          <span class="pop-hint">👆 TAP TO POP!</span>
+        </span>
       </button>
 
       <button class="hotspot journey-hotspot" data-action="journey"
-              aria-label="Tap to see the first twelve months">
-        <span class="tag">Want to see my 12-month journey?</span>
+              aria-label="Tap to pop and see the 12-month journey">
+        <span class="tag">
+          Want to see my 12-month journey?
+          <span class="pop-hint">👆 TAP TO POP!</span>
+        </span>
       </button>
     </div>
 
@@ -606,7 +675,7 @@ h2 {
 
   <!-- VIDEO POPUP -->
   <div class="modal" id="videoModal" aria-hidden="true">
-    <div class="modal-card">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="close" id="closeModal" aria-label="Close video">×</button>
       <div class="modal-title" id="modalTitle">A Little Surprise</div>
       <p class="modal-note" id="modalNote">A special message awaits you… 🤍</p>
@@ -624,8 +693,7 @@ h2 {
 <script>
 const CONFIG = {
   NAME_REVEAL_VIDEO: "assets/name-reveal.mp4",
-  SURPRISE_VIDEO: "assets/baby-invitation.mp4",
-  GOOGLE_MAPS_LINK: "https://maps.app.goo.gl/mgKM2daz4JatsnZ97"
+  SURPRISE_VIDEO: "assets/baby-invitation.mp4"
 };
 
 const screens = document.querySelectorAll(".screen");
@@ -641,13 +709,15 @@ function go(id) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+/* Golden sparkle burst on tap */
 function burst(button) {
   const rect = button.getBoundingClientRect();
   const cx = rect.left + rect.width / 2;
   const cy = rect.top + rect.height / 2;
 
-  for (let i = 0; i < 24; i++) {
+  for (let i = 0; i < 22; i++) {
     const particle = document.createElement("span");
+
     particle.style.cssText =
       "position:fixed;width:7px;height:7px;border-radius:50%;" +
       "background:#f4cf72;pointer-events:none;z-index:100;" +
@@ -662,7 +732,7 @@ function burst(button) {
     requestAnimationFrame(() => {
       particle.style.transform =
         "translate(" + Math.cos(angle) * distance + "px," +
-        Math.sin(angle) * distance + "px) scale(0.1)";
+        Math.sin(angle) * distance + "px) scale(.1)";
       particle.style.opacity = "0";
     });
 
@@ -693,7 +763,7 @@ function openVideo(kind) {
   document.body.style.overflow = "hidden";
 
   player.play().catch(() => {
-    // If autoplay is blocked, the visitor can press Play.
+    /* If autoplay is blocked, visitors can press Play. */
   });
 }
 
@@ -715,7 +785,9 @@ document.querySelectorAll(".hotspot").forEach(button => {
 
     burst(button);
 
-    if (tapPrompt) tapPrompt.style.display = "none";
+    if (tapPrompt) {
+      tapPrompt.style.display = "none";
+    }
 
     if (action === "map") {
       go("map");
