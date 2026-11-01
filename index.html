@@ -2,434 +2,491 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#eaf7ff">
-  <title>A Birthday Adventure | Siva Aarush</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eaf7ff">
+<title>A Birthday Adventure</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --ink: #263d48;
-      --muted: #71838d;
-      --gold: #b78b35;
-      --line: rgba(255,255,255,.85);
-      --shadow: 0 20px 60px rgba(42,85,108,.15);
-    }
+<style>
+:root {
+  --ink: #263d48;
+  --muted: #71838d;
+  --gold: #b78b35;
+  --shadow: 0 20px 60px rgba(42,85,108,.15);
+}
 
-    * { box-sizing: border-box; }
+* { box-sizing: border-box; }
 
-    html, body {
-      margin: 0;
-      min-height: 100%;
-      font-family: Inter, Arial, sans-serif;
-      color: var(--ink);
-    }
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Inter, Arial, sans-serif;
+  color: var(--ink);
+}
 
-    body {
-      background:
-        radial-gradient(circle at 50% 5%, #fff 0, transparent 34%),
-        linear-gradient(180deg, #fbfdff 0%, #e8f7ff 55%, #fffaf0 100%);
-      overflow-x: hidden;
-    }
+body {
+  background:
+    radial-gradient(circle at 50% 5%, #fff 0, transparent 34%),
+    linear-gradient(180deg, #fbfdff 0%, #e8f7ff 55%, #fffaf0 100%);
+  overflow-x: hidden;
+}
 
-    button, a { font: inherit; }
+button, a { font: inherit; }
 
-    .page {
-      min-height: 100svh;
-      padding: calc(16px + env(safe-area-inset-top)) 14px 28px;
-      position: relative;
-      overflow: hidden;
-    }
+.page {
+  min-height: 100svh;
+  padding: calc(16px + env(safe-area-inset-top)) 14px 28px;
+  position: relative;
+  overflow: hidden;
+}
 
-    .page::before {
-      content: "";
-      position: fixed;
-      inset: -20%;
-      pointer-events: none;
-      background: radial-gradient(circle at 50% 25%, rgba(255,221,137,.22), transparent 28%);
-      animation: glow 8s ease-in-out infinite;
-    }
+.page::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 25%, rgba(255,221,137,.22), transparent 28%);
+  animation: ambientGlow 8s ease-in-out infinite;
+}
 
-    @keyframes glow {
-      50% { transform: scale(1.08); opacity: .7; }
-    }
+@keyframes ambientGlow {
+  50% { transform: scale(1.08); opacity: .7; }
+}
 
-    .screen { display: none; position: relative; z-index: 1; }
-    .screen.active { display: block; }
+.screen { display: none; position: relative; z-index: 1; }
+.screen.active { display: block; }
 
-    .brand {
-      text-align: center;
-      font: 500 12px "Cormorant Garamond", serif;
-      letter-spacing: .27em;
-      text-transform: uppercase;
-      color: #71838d;
-    }
+.brand {
+  text-align: center;
+  font: 500 12px "Cormorant Garamond", serif;
+  letter-spacing: .27em;
+  text-transform: uppercase;
+  color: #71838d;
+}
 
-    .intro {
-      text-align: center;
-      margin: 18px auto;
-      position: relative;
-      z-index: 1;
-    }
+.intro {
+  text-align: center;
+  margin: 18px auto 16px;
+  position: relative;
+  z-index: 1;
+}
 
-    .kicker, .eyebrow {
-      font-size: 9px;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
+.kicker, .eyebrow {
+  font-size: 10px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
 
-    h1 {
-      font: 500 clamp(43px, 12vw, 64px)/.9 "Cormorant Garamond", serif;
-      margin: 10px 0;
-      color: #243b46;
-    }
+h1 {
+  font: 500 clamp(43px, 12vw, 64px)/.9 "Cormorant Garamond", serif;
+  margin: 12px 0;
+  color: #243b46;
+}
 
-    h1 span { display: block; }
+h1 span { display: block; }
 
-    .intro p, .content > p {
-      font-size: 12px;
-      line-height: 1.8;
-      color: var(--muted);
-      margin: 14px auto 0;
-      max-width: 340px;
-    }
+.intro p, .content > p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin: 12px auto 0;
+  max-width: 340px;
+}
 
-    .artwork {
-      position: relative;
-      width: min(100%, 520px);
-      margin: 0 auto;
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      isolation: isolate;
-      background: #d9effa;
-      line-height: 0;
-    }
+/* Highly visible instruction */
+.tap-prompt {
+  width: fit-content;
+  max-width: 95%;
+  margin: 18px auto 15px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(183,139,53,.35);
+  border-radius: 999px;
+  background: rgba(255,255,255,.88);
+  box-shadow: 0 8px 28px rgba(63,100,117,.12);
+  color: #36566a;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  animation: promptPulse 2.2s ease-in-out infinite;
+}
 
-    .artwork > img {
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 2 / 3;
-      object-fit: cover;
-    }
+.tap-prompt .hand {
+  display: inline-block;
+  font-size: 21px;
+  animation: handPoint 1.2s ease-in-out infinite;
+}
 
-    .artwork::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      border: 1px solid rgba(255,255,255,.72);
-      border-radius: 28px;
-    }
+@keyframes promptPulse {
+  0%, 100% { box-shadow: 0 8px 22px rgba(63,100,117,.10); }
+  50% { box-shadow: 0 8px 30px rgba(183,139,53,.28); }
+}
 
-    .hotspot {
-      position: absolute;
-      z-index: 2;
-      display: block;
-      border: 0;
-      background: transparent;
-      padding: 0;
-      cursor: pointer;
-      border-radius: 48%;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
+@keyframes handPoint {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
 
-    .hotspot:focus-visible {
-      outline: 3px solid white;
-      box-shadow: 0 0 0 6px rgba(188,144,49,.8);
-    }
+/* Balloon artwork */
+.artwork {
+  position: relative;
+  width: min(100%, 520px);
+  margin: 0 auto;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  isolation: isolate;
+  background: #d9effa;
+  line-height: 0;
+}
 
-    .tag {
-      position: absolute;
-      left: 50%;
-      top: 43%;
-      transform: translate(-50%, -50%);
-      width: 76%;
-      max-width: 118px;
-      color: #36566a;
-      text-align: center;
-      line-height: 1.2;
-      font-size: clamp(8px, 1.5vw, 10px);
-      font-weight: 600;
-      text-shadow: 0 1px 7px #fff, 0 0 3px #fff;
-      pointer-events: none;
-    }
+.artwork > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
 
-    .hotspot.popping {
-      animation: pop .42s ease-in forwards;
-      pointer-events: none;
-    }
+.artwork::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 28px;
+}
 
-    @keyframes pop {
-      0% { transform: scale(1); }
-      35% { transform: scale(1.08); }
-      100% { transform: scale(.05); opacity: 0; }
-    }
+.hotspot {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 48%;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  animation: hotspotFloat 3.6s ease-in-out infinite;
+}
 
-    /* Adjust these positions if your balloon artwork differs. */
-    .name-hotspot { left: 7%; top: 1.5%; width: 39%; height: 25%; }
-    .surprise-hotspot { left: 56%; top: 3%; width: 38%; height: 25%; }
-    .map-hotspot { left: 0%; top: 25%; width: 33%; height: 25%; }
-    .journey-hotspot { left: 71%; top: 29%; width: 29%; height: 24%; }
+.name-hotspot { left: 7%; top: 1.5%; width: 39%; height: 25%; }
+.surprise-hotspot { left: 56%; top: 3%; width: 38%; height: 25%; animation-delay: .5s; }
+.map-hotspot { left: 0%; top: 25%; width: 33%; height: 25%; animation-delay: 1s; }
+.journey-hotspot { left: 71%; top: 29%; width: 29%; height: 24%; animation-delay: 1.5s; }
 
-    .instruction {
-      text-align: center;
-      margin: 18px auto 0;
-      font-size: 10px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: #758892;
-      line-height: 1.6;
-    }
+@keyframes hotspotFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -5px; }
+}
 
-    .sparkle { color: var(--gold); padding: 0 7px; }
+/* Gentle golden pulse highlights where to tap */
+.hotspot::before {
+  content: "";
+  position: absolute;
+  inset: 5%;
+  border: 2px solid rgba(255,255,255,.9);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255,224,153,.6);
+  animation: balloonHint 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
 
-    .footer {
-      text-align: center;
-      margin: 20px auto 0;
-      font: italic 18px "Cormorant Garamond", serif;
-      color: #81939c;
-    }
+.surprise-hotspot::before { animation-delay: .4s; }
+.map-hotspot::before { animation-delay: .8s; }
+.journey-hotspot::before { animation-delay: 1.2s; }
 
-    .footer b { font-weight: 500; color: #9c762d; }
+@keyframes balloonHint {
+  0%, 100% { transform: scale(.97); opacity: .25; }
+  50% { transform: scale(1.03); opacity: .9; }
+}
 
-    .back {
-      position: fixed;
-      top: calc(12px + env(safe-area-inset-top));
-      left: 12px;
-      z-index: 15;
-      width: 42px;
-      height: 42px;
-      border: 1px solid rgba(255,255,255,.9);
-      border-radius: 50%;
-      background: rgba(255,255,255,.9);
-      box-shadow: 0 5px 18px rgba(35,70,87,.12);
-      font-size: 22px;
-      color: #506873;
-      cursor: pointer;
-    }
+.hotspot .tag {
+  position: absolute;
+  left: 50%;
+  top: 43%;
+  transform: translate(-50%, -50%);
+  width: 82%;
+  max-width: 125px;
+  color: #29495d;
+  text-align: center;
+  line-height: 1.25;
+  font-size: clamp(10px, 1.8vw, 13px);
+  font-weight: 700;
+  text-shadow: 0 1px 7px #fff, 0 0 5px #fff;
+  pointer-events: none;
+}
 
-    .content {
-      width: min(100%, 700px);
-      margin: 7vh auto 0;
-      text-align: center;
-    }
+.hotspot:focus-visible {
+  outline: 3px solid white;
+  box-shadow: 0 0 0 6px rgba(188,144,49,.8);
+}
 
-    h2 {
-      font: 500 clamp(42px, 11vw, 66px)/.9 "Cormorant Garamond", serif;
-      margin: 13px 0 14px;
-    }
+.hotspot:active {
+  scale: .94;
+}
 
-    .content > p { margin: 0 auto 22px; }
+.hotspot.popping {
+  animation: popBalloon .4s ease-in forwards;
+  pointer-events: none;
+}
 
-    .card {
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      background: rgba(255,255,255,.76);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-    }
+.hotspot.popping::before,
+.hotspot.popping .tag {
+  opacity: 0;
+}
 
-    .map-embed {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      min-height: 220px;
-      overflow: hidden;
-      border-radius: 20px;
-      margin-bottom: 16px;
-      background: #e8f7ff;
-    }
+@keyframes popBalloon {
+  0% { scale: 1; opacity: 1; }
+  30% { scale: 1.12; }
+  100% { scale: .05; opacity: 0; }
+}
 
-    .map-embed iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-      min-height: 220px;
-      border: 0;
-    }
+.instruction {
+  text-align: center;
+  margin: 17px auto 0;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #758892;
+  line-height: 1.7;
+}
 
-    .details {
-      text-align: left;
-      display: grid;
-      gap: 10px;
-      font-size: 12px;
-      color: #5c707a;
-    }
+.sparkle { color: var(--gold); padding: 0 7px; }
 
-    .details strong { color: #2a414b; }
+.footer {
+  text-align: center;
+  margin: 20px auto 0;
+  font: italic 18px "Cormorant Garamond", serif;
+  color: #81939c;
+}
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0 20px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #fff, #fff4cf);
-      border: 1px solid rgba(183,139,53,.35);
-      color: #70551f;
-      text-decoration: none;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      margin-top: 18px;
-    }
+.footer b { font-weight: 500; color: #9c762d; }
 
-    .journey { display: grid; gap: 10px; text-align: left; }
+.back {
+  position: fixed;
+  top: calc(12px + env(safe-area-inset-top));
+  left: 12px;
+  z-index: 15;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 5px 18px rgba(35,70,87,.12);
+  font-size: 22px;
+  color: #506873;
+  cursor: pointer;
+}
 
-    .month {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      padding: 10px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.8);
-      border: 1px solid white;
-    }
+.content {
+  width: min(100%, 700px);
+  margin: 7vh auto 0;
+  text-align: center;
+}
 
-    .month .num {
-      width: 48px;
-      height: 48px;
-      border-radius: 15px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #fff, #dff4ff);
-      font: 22px "Cormorant Garamond", serif;
-      color: #92722d;
-      flex-shrink: 0;
-    }
+h2 {
+  font: 500 clamp(42px, 11vw, 66px)/.9 "Cormorant Garamond", serif;
+  margin: 13px 0 14px;
+}
 
-    .month b { font: 600 20px "Cormorant Garamond", serif; }
+.content > p { margin: 0 auto 22px; }
 
-    .month span {
-      display: block;
-      font-size: 10px;
-      color: var(--muted);
-      margin-top: 3px;
-    }
+.card {
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,.85);
+  border-radius: 26px;
+  background: rgba(255,255,255,.76);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
 
-    /* Video popup */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      padding: 12px;
-      background: rgba(28,46,55,.82);
-      backdrop-filter: blur(12px);
-      align-items: center;
-      justify-content: center;
-    }
+.map-embed {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-height: 220px;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  background: #e8f7ff;
+}
 
-    .modal.show { display: flex; }
+.map-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  border: 0;
+}
 
-    .modal-card {
-      position: relative;
-      width: min(100%, 760px);
-      max-height: 94svh;
-      overflow: auto;
-      padding: 22px 14px 16px;
-      border-radius: 26px;
-      background: linear-gradient(180deg, #fff, #f1faff);
-      box-shadow: 0 30px 90px rgba(0,0,0,.28);
-    }
+.details {
+  text-align: left;
+  display: grid;
+  gap: 10px;
+  font-size: 12px;
+  color: #5c707a;
+}
 
-    .close {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 1px solid #dce8ec;
-      background: #fff;
-      color: #4e6671;
-      font-size: 22px;
-      cursor: pointer;
-      z-index: 3;
-    }
+.details strong { color: #2a414b; }
 
-    .modal-title {
-      text-align: center;
-      font: 500 clamp(34px, 9vw, 50px)/.95 "Cormorant Garamond", serif;
-      margin: 4px 42px 12px;
-    }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fff, #fff4cf);
+  border: 1px solid rgba(183,139,53,.35);
+  color: #70551f;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-top: 18px;
+}
 
-    .modal-note {
-      text-align: center;
-      font-size: 11px;
-      line-height: 1.6;
-      color: var(--muted);
-      margin: 0 auto 15px;
-    }
+.journey { display: grid; gap: 10px; text-align: left; }
 
-    .video-wrap {
-      position: relative;
-      width: 100%;
-      max-width: 620px;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: 18px;
-      margin: 0 auto;
-      background: #101010;
-    }
+.month {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 10px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.8);
+  border: 1px solid white;
+}
 
-    .video-wrap.portrait {
-      width: min(100%, 420px);
-      aspect-ratio: 9 / 16;
-      max-height: 68svh;
-    }
+.month .num {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #fff, #dff4ff);
+  font: 22px "Cormorant Garamond", serif;
+  color: #92722d;
+  flex-shrink: 0;
+}
 
-    .video-wrap video {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #101010;
-    }
+.month b { font: 600 20px "Cormorant Garamond", serif; }
 
-    .spark {
-      position: fixed;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #f4cf72;
-      pointer-events: none;
-      z-index: 100;
-      animation: spark .8s ease-out forwards;
-    }
+.month span {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+}
 
-    @keyframes spark {
-      to { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
-    }
+/* Video popup */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  padding: 12px;
+  background: rgba(28,46,55,.82);
+  backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+}
 
-    @media (min-width: 600px) {
-      .map-embed { aspect-ratio: 16 / 9; }
-    }
+.modal.show { display: flex; }
 
-    @media (min-width: 700px) {
-      .page { padding-top: 24px; }
-      .intro { margin-top: 24px; }
-      .artwork { width: min(100%, 450px); }
-    }
+.modal-card {
+  position: relative;
+  width: min(100%, 760px);
+  max-height: 94svh;
+  overflow: auto;
+  padding: 22px 14px 16px;
+  border-radius: 26px;
+  background: linear-gradient(180deg, #fff, #f1faff);
+  box-shadow: 0 30px 90px rgba(0,0,0,.28);
+}
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-  </style>
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid #dce8ec;
+  background: #fff;
+  color: #4e6671;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.modal-title {
+  text-align: center;
+  font: 500 clamp(34px, 9vw, 50px)/.95 "Cormorant Garamond", serif;
+  margin: 4px 42px 12px;
+}
+
+.modal-note {
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0 auto 15px;
+}
+
+.video-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 18px;
+  margin: 0 auto;
+  background: #101010;
+}
+
+.video-wrap.portrait {
+  width: min(100%, 420px);
+  aspect-ratio: 9 / 16;
+  max-height: 65svh;
+}
+
+.video-wrap video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #101010;
+}
+
+@media (min-width: 600px) {
+  .map-embed { aspect-ratio: 16 / 9; }
+}
+
+@media (min-width: 700px) {
+  .page { padding-top: 24px; }
+  .intro { margin-top: 24px; }
+  .artwork { width: min(100%, 450px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -442,38 +499,44 @@
     <header class="intro">
       <div class="kicker">A secret awaits</div>
       <h1><span>A Birthday</span><span>Adventure</span></h1>
-      <p>Four little balloons. Four little secrets.<br>Tap a balloon to discover yours.</p>
+      <p>Four little balloons. Four little secrets.<br>
+         Tap a balloon to discover yours.</p>
     </header>
+
+    <div class="tap-prompt" id="tapPrompt">
+      <span class="hand">👇</span>
+      <span>Start here! Tap any balloon to pop it</span>
+      <span>🎈</span>
+    </div>
 
     <div class="artwork">
       <img src="assets/baby-four-balloons.png"
-           alt="Baby with four balloons"
-           onerror="this.alt='Please check that assets/baby-four-balloons.png exists in your repository.'">
+           alt="Baby with four balloons">
 
       <button class="hotspot name-hotspot" data-action="name"
-              aria-label="Reveal my full name">
+              aria-label="Tap to reveal the baby's full name">
         <span class="tag">Do you want to know my full name?</span>
       </button>
 
       <button class="hotspot surprise-hotspot" data-action="surprise"
-              aria-label="Watch the birthday invitation">
+              aria-label="Tap to watch the birthday surprise">
         <span class="tag">A little surprise is waiting for you!</span>
       </button>
 
       <button class="hotspot map-hotspot" data-action="map"
-              aria-label="Find the celebration venue">
+              aria-label="Tap to find the celebration venue">
         <span class="tag">Where will we celebrate?</span>
       </button>
 
       <button class="hotspot journey-hotspot" data-action="journey"
-              aria-label="See my first twelve months">
+              aria-label="Tap to see the first twelve months">
         <span class="tag">Want to see my 12-month journey?</span>
       </button>
     </div>
 
     <div class="instruction">
       <span class="sparkle">✦</span>
-      Touch a balloon to open its secret
+      Four balloons. Four surprises. Tap to explore!
       <span class="sparkle">✦</span>
     </div>
 
@@ -541,12 +604,12 @@
     </div>
   </section>
 
-  <!-- VIDEO POPUP: BOTH VIDEOS USE ASSETS -->
+  <!-- VIDEO POPUP -->
   <div class="modal" id="videoModal" aria-hidden="true">
     <div class="modal-card">
       <button class="close" id="closeModal" aria-label="Close video">×</button>
       <div class="modal-title" id="modalTitle">A Little Surprise</div>
-      <p class="modal-note" id="modalNote">Someone very special has a message for you… 🤍</p>
+      <p class="modal-note" id="modalNote">A special message awaits you… 🤍</p>
 
       <div class="video-wrap" id="videoWrap">
         <video id="videoPlayer" controls playsinline preload="metadata">
@@ -559,13 +622,9 @@
 </main>
 
 <script>
-/*
-  Make sure these filenames match your GitHub assets folder exactly.
-  GitHub Pages paths are case-sensitive.
-*/
 const CONFIG = {
   NAME_REVEAL_VIDEO: "assets/name-reveal.mp4",
-  SURPRISE_VIDEO: "assets/birthday-invitation.mp4",
+  SURPRISE_VIDEO: "assets/baby-invitation.mp4",
   GOOGLE_MAPS_LINK: "https://maps.app.goo.gl/mgKM2daz4JatsnZ97"
 };
 
@@ -573,6 +632,7 @@ const screens = document.querySelectorAll(".screen");
 const modal = document.getElementById("videoModal");
 const player = document.getElementById("videoPlayer");
 const videoWrap = document.getElementById("videoWrap");
+const tapPrompt = document.getElementById("tapPrompt");
 
 function go(id) {
   screens.forEach(screen => {
@@ -586,20 +646,27 @@ function burst(button) {
   const cx = rect.left + rect.width / 2;
   const cy = rect.top + rect.height / 2;
 
-  for (let i = 0; i < 22; i++) {
+  for (let i = 0; i < 24; i++) {
     const particle = document.createElement("span");
-    particle.className = "spark";
-    particle.style.left = cx + "px";
-    particle.style.top = cy + "px";
-
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 45 + Math.random() * 100;
-
-    particle.style.setProperty("--x", Math.cos(angle) * distance + "px");
-    particle.style.setProperty("--y", Math.sin(angle) * distance + "px");
+    particle.style.cssText =
+      "position:fixed;width:7px;height:7px;border-radius:50%;" +
+      "background:#f4cf72;pointer-events:none;z-index:100;" +
+      "left:" + cx + "px;top:" + cy + "px;" +
+      "transition:transform .65s ease-out,opacity .65s ease-out;";
 
     document.body.appendChild(particle);
-    setTimeout(() => particle.remove(), 850);
+
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 35 + Math.random() * 95;
+
+    requestAnimationFrame(() => {
+      particle.style.transform =
+        "translate(" + Math.cos(angle) * distance + "px," +
+        Math.sin(angle) * distance + "px) scale(0.1)";
+      particle.style.opacity = "0";
+    });
+
+    setTimeout(() => particle.remove(), 750);
   }
 }
 
@@ -614,24 +681,20 @@ function openVideo(kind) {
     : "Someone very special has a message for you… 🤍";
 
   player.pause();
-
-  const videoPath = isName
+  player.src = isName
     ? CONFIG.NAME_REVEAL_VIDEO
     : CONFIG.SURPRISE_VIDEO;
 
-  player.src = videoPath;
-
-  // Use portrait presentation for the invitation video.
   videoWrap.classList.toggle("portrait", !isName);
-
   player.load();
 
   modal.classList.add("show");
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 
-  // Some browsers require the visitor to press Play.
-  player.play().catch(() => {});
+  player.play().catch(() => {
+    // If autoplay is blocked, the visitor can press Play.
+  });
 }
 
 function closeVideo() {
@@ -652,6 +715,8 @@ document.querySelectorAll(".hotspot").forEach(button => {
 
     burst(button);
 
+    if (tapPrompt) tapPrompt.style.display = "none";
+
     if (action === "map") {
       go("map");
       return;
@@ -663,7 +728,12 @@ document.querySelectorAll(".hotspot").forEach(button => {
     }
 
     if (action === "name" || action === "surprise") {
-      openVideo(action);
+      button.classList.add("popping");
+
+      setTimeout(() => {
+        button.classList.remove("popping");
+        openVideo(action);
+      }, 300);
     }
   });
 });
