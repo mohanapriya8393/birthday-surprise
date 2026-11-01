@@ -448,91 +448,83 @@ h2 {
 }
 
 /* Video popup */
-
-/* Full-screen video popup */
 .modal {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 9999;
-  padding: 0;
-  background: #000;
+  z-index: 50;
+  padding: 12px;
+  background: rgba(28,46,55,.82);
+  backdrop-filter: blur(12px);
   align-items: center;
   justify-content: center;
 }
 
-.modal.show {
-  display: flex;
-}
+.modal.show { display: flex; }
 
-/* Remove the small card and its padding */
 .modal-card {
   position: relative;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
-  overflow: hidden;
-  padding: 0;
-  border-radius: 0;
-  background: #000;
-  box-shadow: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: min(100%, 760px);
+  max-height: 94svh;
+  overflow: auto;
+  padding: 22px 14px 16px;
+  border-radius: 26px;
+  background: linear-gradient(180deg, #fff, #f1faff);
+  box-shadow: 0 30px 90px rgba(0,0,0,.28);
 }
 
-/* Hide title and note for an immersive video */
-.modal-title,
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid #dce8ec;
+  background: #fff;
+  color: #4e6671;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.modal-title {
+  text-align: center;
+  font: 500 clamp(34px, 9vw, 50px)/.95 "Cormorant Garamond", serif;
+  margin: 4px 42px 12px;
+}
+
 .modal-note {
-  display: none;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0 auto 15px;
 }
 
-/* Video fills the available screen */
 .video-wrap {
   position: relative;
   width: 100%;
-  height: 100%;
-  max-width: none;
-  aspect-ratio: auto;
+  max-width: 620px;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 0;
-  margin: 0;
-  background: #000;
+  border-radius: 18px;
+  margin: 0 auto;
+  background: #101010;
 }
 
-/* Portrait video: use the entire screen height */
 .video-wrap.portrait {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
-  aspect-ratio: auto;
+  width: min(100%, 420px);
+  aspect-ratio: 9 / 16;
+  max-height: 65svh;
 }
 
-/* Show the whole video without cropping */
 .video-wrap video {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background: #000;
-}
-
-/* Close button stays visible above the video */
-.close {
-  position: fixed;
-  top: max(12px, env(safe-area-inset-top));
-  right: 12px;
-  z-index: 10000;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.6);
-  background: rgba(25,25,25,.7);
-  color: #fff;
-  font-size: 28px;
-  cursor: pointer;
+  background: #101010;
 }
 
 @media (min-width: 600px) {
