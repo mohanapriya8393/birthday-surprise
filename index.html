@@ -553,6 +553,169 @@ h2 {
     scroll-behavior: auto !important;
   }
 }
+
+/* ==============================
+   BLURRED VIDEO PREVIEW
+   ============================== */
+
+   .preview-video-card {
+  position: relative;
+  width: min(88%, 360px);
+  aspect-ratio: 9 / 16;
+  margin: 22px auto 0;
+  border-radius: 24px;
+  overflow: hidden;
+
+  background: #dceef7;
+
+  box-shadow:
+    0 18px 45px rgba(42, 85, 108, .18),
+    0 0 0 1px rgba(255,255,255,.8);
+
+  cursor: pointer;
+}
+
+/* Blurred video behind the play button */
+.preview-video {
+  position: absolute;
+  inset: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+
+  object-fit: cover;
+
+  filter: blur(13px);
+  transform: scale(1.08);
+
+  opacity: .78;
+}
+
+/* Soft luxury overlay */
+.preview-overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,45,58,.08) 0%,
+      rgba(20,45,58,.22) 50%,
+      rgba(20,45,58,.42) 100%
+    );
+
+  color: white;
+}
+
+/* Text above play button */
+.preview-text {
+  position: absolute;
+  top: 20%;
+
+  padding: 7px 15px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.4);
+
+  backdrop-filter: blur(8px);
+
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  letter-spacing: .04em;
+
+  text-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+
+/* Large play button */
+.preview-play {
+  width: 76px;
+  height: 76px;
+
+  border: 2px solid rgba(255,255,255,.9);
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.22);
+
+  backdrop-filter: blur(10px);
+
+  color: white;
+
+  font-size: 27px;
+
+  padding-left: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 0 0 0 rgba(255,255,255,.5),
+    0 10px 30px rgba(0,0,0,.25);
+
+  animation: previewPlayPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes previewPlayPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(255,255,255,.4),
+      0 10px 30px rgba(0,0,0,.25);
+  }
+
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 14px rgba(255,255,255,.08),
+      0 12px 35px rgba(0,0,0,.3);
+  }
+}
+
+.preview-play:active {
+  transform: scale(.92);
+}
+
+/* Bottom text */
+.preview-caption {
+  position: absolute;
+  bottom: 18%;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: .22em;
+  text-transform: uppercase;
+
+  text-shadow: 0 2px 8px rgba(0,0,0,.5);
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+  .preview-video-card {
+    width: 82%;
+    max-width: 330px;
+  }
+
+  .preview-text {
+    font-size: 18px;
+  }
+
+  .preview-play {
+    width: 68px;
+    height: 68px;
+    font-size: 24px;
+  }
+}
 </style>
 </head>
 
@@ -616,6 +779,30 @@ h2 {
       <span class="sparkle">✦</span>
       Four balloons. Four surprises. Tap to explore!
       <span class="sparkle">✦</span>
+    </div>
+
+    <!-- BLURRED VIDEO PREVIEW -->
+  <div class="preview-video-card" id="previewVideoCard">
+    <video
+      class="preview-video"
+      id="previewVideo"
+      src="assets/1793152038207.mp4"
+      muted
+      playsinline
+      preload="metadata">
+    </video>
+
+    <div class="preview-overlay">
+        <div class="preview-text">A little memory awaits...</div>
+
+        <button class="preview-play" id="previewPlay" aria-label="Play video">
+          ▶
+        </button>
+
+        <div class="preview-caption">
+          Tap to watch
+        </div>
+      </div>
     </div>
 
     <div class="footer">A little magic, made with <b>love</b>.</div>
@@ -690,7 +877,13 @@ h2 {
       <p class="modal-note" id="modalNote">A special message awaits you… 🤍</p>
 
       <div class="video-wrap" id="videoWrap">
-        <video id="videoPlayer" controls playsinline preload="metadata">
+        <video
+          id="videoPlayer"
+          controls
+          controlsList="nodownload noplaybackrate"
+          disablePictureInPicture
+          playsinline
+          preload="metadata">
           Your browser does not support video playback.
         </video>
       </div>
@@ -861,6 +1054,69 @@ modal.addEventListener("click", event => {
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeVideo();
 });
+
+// Disable the browser context menu on the video
+player.addEventListener("contextmenu", function(event) {
+  event.preventDefault();
+});
+
+// Prevent drag/save interaction
+player.addEventListener("dragstart", function(event) {
+  event.preventDefault();
+});
+
+/* ==============================
+   BLURRED VIDEO PREVIEW
+   ============================== */
+
+   const previewVideo = document.getElementById("previewVideo");
+const previewPlay = document.getElementById("previewPlay");
+const previewCard = document.getElementById("previewVideoCard");
+
+previewPlay.addEventListener("click", function(event) {
+  event.stopPropagation();
+
+  /*
+   * Remove blur and play the actual video
+   */
+  previewVideo.style.filter = "none";
+  previewVideo.style.transform = "none";
+  previewVideo.muted = false;
+
+  previewVideo.controls = true;
+
+  previewVideo.play().catch(() => {
+    previewVideo.muted = true;
+    previewVideo.play();
+  });
+
+  previewPlay.style.display = "none";
+});
+
+previewCard.addEventListener("click", function() {
+  if (previewVideo.paused) {
+    previewVideo.style.filter = "none";
+    previewVideo.style.transform = "none";
+    previewVideo.controls = true;
+
+    previewVideo.play();
+
+    previewPlay.style.display = "none";
+  }
+});
+
+/* When video finishes, restore the beautiful preview */
+previewVideo.addEventListener("ended", function() {
+  previewVideo.currentTime = 0;
+  previewVideo.pause();
+
+  previewVideo.controls = false;
+  previewVideo.style.filter = "blur(13px)";
+  previewVideo.style.transform = "scale(1.08)";
+
+  previewPlay.style.display = "flex";
+});
+
 </script>
 </body>
 </html>
