@@ -166,7 +166,7 @@ h1 span { display: block; }
 }
 
 /* Interactive balloon areas */
-/* .hotspot {
+.hotspot {
   position: absolute;
   z-index: 2;
   display: block;
@@ -178,32 +178,6 @@ h1 span { display: block; }
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   animation: hotspotFloat 1.8s ease-in-out infinite;
-} */
-
-.hotspot .tag {
-  position: absolute;
-  left: 50%;
-  top: 43%;
-  transform: translate(-50%, -50%);
-
-  width: 92%;
-  max-width: 150px;
-
-  color: #29495d;
-  text-align: center;
-
-  line-height: 1.25;
-
-  /* Bigger and clearer on mobile */
-  font-size: clamp(11px, 3.2vw, 15px);
-
-  font-weight: 700;
-
-  text-shadow:
-    0 1px 7px rgba(255,255,255,.95),
-    0 0 5px rgba(255,255,255,.95);
-
-  pointer-events: none;
 }
 
 .name-hotspot {
@@ -289,29 +263,13 @@ h1 span { display: block; }
 }
 
 /* TAP TO POP hint */
-/* .pop-hint {
+.pop-hint {
   display: block;
   margin-top: 7px;
   color: #95671a;
   font-size: clamp(8px, 1.5vw, 10px);
   font-weight: 800;
   letter-spacing: .06em;
-  animation: popTextPulse 1s ease-in-out infinite;
-} */
-
-.pop-hint {
-  display: block;
-
-  margin-top: 8px;
-
-  color: #95671a;
-
-  font-size: clamp(9px, 2.5vw, 12px);
-
-  font-weight: 800;
-
-  letter-spacing: .04em;
-
   animation: popTextPulse 1s ease-in-out infinite;
 }
 
@@ -757,23 +715,6 @@ h2 {
     height: 68px;
     font-size: 24px;
   }
-
-  .name-hotspot .tag {
-  font-size: 12px;
-}
-
-.surprise-hotspot .tag {
-  font-size: 11.5px;
-}
-
-.map-hotspot .tag {
-  font-size: 12px;
-}
-
-.journey-hotspot .tag {
-  font-size: 10.5px;
-}
-
 }
 
 .copyright {
