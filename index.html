@@ -745,19 +745,19 @@ h2 {
   }
 
   .name-hotspot .tag {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .surprise-hotspot .tag {
-        font-size: 11px;
-    }
-
-    .map-hotspot .tag {
         font-size: 12px;
     }
 
+    .map-hotspot .tag {
+        font-size: 13px;
+    }
+
     .journey-hotspot .tag {
-        font-size: 10px;
+        font-size: 11px;
     }
 
 }
@@ -769,6 +769,35 @@ h2 {
   letter-spacing: .08em;
   color: #8b9aa1;
   opacity: .85;
+}
+
+/* =========================================
+   VIDEO PLAYING STATE
+   ========================================= */
+
+   .preview-video-card.playing .preview-overlay {
+    display: none !important;
+}
+
+.preview-video-card.playing .preview-video {
+    filter: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+}
+
+/* Make sure the video itself is above everything */
+.preview-video-card.playing .preview-video {
+    position: absolute;
+    z-index: 5;
+}
+
+/* Overlay is only visible before playing */
+.preview-overlay {
+    z-index: 10;
 }
 </style>
 </head>
@@ -846,23 +875,22 @@ h2 {
         playsinline
         preload="metadata">
       </video>
-
-      <!-- Only visible before playback -->
+    
       <div class="preview-overlay" id="previewOverlay">
         <div class="preview-text">A little memory awaits...</div>
-
+    
         <button
           class="preview-play"
           id="previewPlay"
           aria-label="Play video">
           ▶
         </button>
-
+    
         <div class="preview-caption">
           TAP TO WATCH
         </div>
       </div>
-
+    
     </div>
 
     <div class="footer">
@@ -1132,56 +1160,91 @@ player.addEventListener("dragstart", function(event) {
   event.preventDefault();
 });
 
-/* ==============================
-   BLURRED VIDEO PREVIEW
-   ============================== */
-
-   const previewVideo = document.getElementById("previewVideo");
+const previewVideo = document.getElementById("previewVideo");
 const previewPlay = document.getElementById("previewPlay");
 const previewCard = document.getElementById("previewVideoCard");
+const previewOverlay = document.getElementById("previewOverlay");
 
-previewPlay.addEventListener("click", function(event) {
-  event.stopPropagation();
+function startPreviewVideo() {
 
-  /*
-   * Remove blur and play the actual video
-   */
-  previewVideo.style.filter = "none";
-  previewVideo.style.transform = "none";
-  previewVideo.muted = false;
+    // Mark video as playing
+    previewCard.classList.add("playing");
 
-  previewVideo.controls = true;
+    // Completely remove the overlay
+    previewOverlay.style.display = "none";
 
-  previewVideo.play().catch(() => {
-    previewVideo.muted = true;
-    previewVideo.play();
-  });
-
-  previewPlay.style.display = "none";
-});
-
-previewCard.addEventListener("click", function() {
-  if (previewVideo.paused) {
+    // Remove blur
     previewVideo.style.filter = "none";
     previewVideo.style.transform = "none";
+
+    // Show normal video
     previewVideo.controls = true;
 
-    previewVideo.play();
+    // Start video
+    previewVideo.muted = false;
 
-    previewPlay.style.display = "none";
-  }
+    previewVideo.play().catch(() => {
+
+        // Mobile browsers may block autoplay with sound
+        previewVideo.muted = true;
+
+        previewVideo.play();
+    });
+}
+
+
+/* Play button */
+previewPlay.addEventListener("click", function(event) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    startPreviewVideo();
 });
 
-/* When video finishes, restore the beautiful preview */
+
+/* Clicking the preview */
+previewCard.addEventListener("click", function(event) {
+
+    // Ignore clicks directly on video controls
+    if (event.target === previewVideo) {
+        return;
+    }
+
+    if (previewVideo.paused) {
+        startPreviewVideo();
+    }
+});
+
+
+/* Detect actual playback */
+previewVideo.addEventListener("playing", function() {
+
+    previewCard.classList.add("playing");
+
+    previewOverlay.style.display = "none";
+
+    previewVideo.style.filter = "none";
+    previewVideo.style.transform = "none";
+});
+
+
+/* When video finishes */
 previewVideo.addEventListener("ended", function() {
-  previewVideo.currentTime = 0;
-  previewVideo.pause();
 
-  previewVideo.controls = false;
-  previewVideo.style.filter = "blur(13px)";
-  previewVideo.style.transform = "scale(1.08)";
+    previewVideo.pause();
 
-  previewPlay.style.display = "flex";
+    previewVideo.currentTime = 0;
+
+    previewVideo.controls = false;
+
+    previewCard.classList.remove("playing");
+
+    // Bring the preview back
+    previewOverlay.style.display = "flex";
+
+    previewVideo.style.filter = "blur(13px)";
+    previewVideo.style.transform = "scale(1.08)";
 });
 
 </script>
