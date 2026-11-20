@@ -603,8 +603,8 @@ h2 {
         </span>
       </button>
 
-      <button class="hotspot journey-hotspot" data-action="journey"
-              aria-label="Tap to pop and see the 12-month journey">
+      <button class="hotspot journey-hotspot" data-action="journey-video"
+        aria-label="Tap to pop and watch my 12-month journey">
         <span class="tag">
           Want to see my 12-month journey?
           <span class="pop-hint">👆 TAP TO POP!</span>
@@ -702,7 +702,8 @@ h2 {
 <script>
 const CONFIG = {
   NAME_REVEAL_VIDEO: "assets/name-reveal.mp4",
-  SURPRISE_VIDEO: "assets/baby-invitation.mp4"
+  SURPRISE_VIDEO: "assets/baby-invitation.mp4",
+  JOURNEY_VIDEO: "assets/12-month-journey.mp4"
 };
 
 const screens = document.querySelectorAll(".screen");
@@ -750,29 +751,55 @@ function burst(button) {
 }
 
 function openVideo(kind) {
+
   const isName = kind === "name";
+  const isJourney = kind === "journey-video";
 
-  document.getElementById("modalTitle").textContent =
-    isName ? "The Secret Name" : "A Little Surprise";
+  let videoSource;
+  let title;
+  let note;
 
-  document.getElementById("modalNote").textContent = isName
-    ? "The moment you've been waiting for… ✨"
-    : "Someone very special has a message for you… 🤍";
+  if (isName) {
+    videoSource = CONFIG.NAME_REVEAL_VIDEO;
+    title = "The Secret Name";
+    note = "The moment you've been waiting for… ✨";
+  }
+  else if (isJourney) {
+    videoSource = CONFIG.JOURNEY_VIDEO;
+    title = "My First 12 Months";
+    note = "Twelve months of smiles, memories and little moments… 🤍";
+  }
+  else {
+    videoSource = CONFIG.SURPRISE_VIDEO;
+    title = "A Little Surprise";
+    note = "Someone very special has a message for you… 🤍";
+  }
+
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalNote").textContent = note;
 
   player.pause();
-  player.src = isName
-    ? CONFIG.NAME_REVEAL_VIDEO
-    : CONFIG.SURPRISE_VIDEO;
 
-  videoWrap.classList.toggle("portrait", !isName);
+  player.src = videoSource;
+
+  /*
+  * If your 12-month video is portrait,
+  * it will use the portrait layout.
+  */
+  videoWrap.classList.toggle(
+    "portrait",
+    !isName && !isJourney
+  );
+
   player.load();
 
   modal.classList.add("show");
   modal.setAttribute("aria-hidden", "false");
+
   document.body.style.overflow = "hidden";
 
   player.play().catch(() => {
-    /* If autoplay is blocked, visitors can press Play. */
+    /* If autoplay is blocked, visitor can press Play */
   });
 }
 
@@ -803,19 +830,21 @@ document.querySelectorAll(".hotspot").forEach(button => {
       return;
     }
 
-    if (action === "journey") {
-      go("journey");
-      return;
-    }
-
-    if (action === "name" || action === "surprise") {
+    if (
+      action === "name" ||
+      action === "surprise" ||
+      action === "journey-video"
+    ) {
       button.classList.add("popping");
 
       setTimeout(() => {
         button.classList.remove("popping");
         openVideo(action);
       }, 300);
+
+      return;
     }
+
   });
 });
 
