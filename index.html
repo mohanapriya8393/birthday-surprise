@@ -555,7 +555,7 @@ h2 {
 }
 
 /* ==============================
-   BLURRED VIDEO PREVIEW
+   VIDEO PREVIEW
    ============================== */
 
    .preview-video-card {
@@ -566,7 +566,7 @@ h2 {
   border-radius: 24px;
   overflow: hidden;
 
-  background: #dceef7;
+  background: #000;
 
   box-shadow:
     0 18px 45px rgba(42, 85, 108, .18),
@@ -575,10 +575,11 @@ h2 {
   cursor: pointer;
 }
 
-/* Blurred video behind the play button */
+/* Blurred preview */
 .preview-video {
   position: absolute;
   inset: -14px;
+
   width: calc(100% + 28px);
   height: calc(100% + 28px);
 
@@ -588,9 +589,29 @@ h2 {
   transform: scale(1.08);
 
   opacity: .78;
+
+  transition:
+    filter .35s ease,
+    transform .35s ease,
+    opacity .35s ease;
 }
 
-/* Soft luxury overlay */
+/* Once video is playing */
+.preview-video-card.playing .preview-video {
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  filter: none;
+  transform: none;
+
+  opacity: 1;
+
+  object-fit: contain;
+}
+
+/* Preview overlay */
 .preview-overlay {
   position: absolute;
   inset: 0;
@@ -606,14 +627,26 @@ h2 {
     linear-gradient(
       180deg,
       rgba(20,45,58,.08) 0%,
-      rgba(20,45,58,.22) 50%,
+      rgba(20,45,58,.18) 50%,
       rgba(20,45,58,.42) 100%
     );
 
   color: white;
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease;
 }
 
-/* Text above play button */
+/* IMPORTANT:
+   Completely hide overlay while playing */
+.preview-video-card.playing .preview-overlay {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Preview title */
 .preview-text {
   position: absolute;
   top: 20%;
@@ -623,23 +656,26 @@ h2 {
   border-radius: 999px;
 
   background: rgba(255,255,255,.18);
+
   border: 1px solid rgba(255,255,255,.4);
 
   backdrop-filter: blur(8px);
 
   font-family: "Cormorant Garamond", serif;
   font-size: 20px;
+
   letter-spacing: .04em;
 
   text-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
 
-/* Large play button */
+/* Play button */
 .preview-play {
   width: 76px;
   height: 76px;
 
   border: 2px solid rgba(255,255,255,.9);
+
   border-radius: 50%;
 
   background: rgba(255,255,255,.22);
@@ -659,33 +695,24 @@ h2 {
   cursor: pointer;
 
   box-shadow:
-    0 0 0 0 rgba(255,255,255,.5),
     0 10px 30px rgba(0,0,0,.25);
 
   animation: previewPlayPulse 1.8s ease-in-out infinite;
 }
 
 @keyframes previewPlayPulse {
+
   0%, 100% {
     transform: scale(1);
-    box-shadow:
-      0 0 0 0 rgba(255,255,255,.4),
-      0 10px 30px rgba(0,0,0,.25);
   }
 
   50% {
     transform: scale(1.08);
-    box-shadow:
-      0 0 0 14px rgba(255,255,255,.08),
-      0 12px 35px rgba(0,0,0,.3);
   }
+
 }
 
-.preview-play:active {
-  transform: scale(.92);
-}
-
-/* Bottom text */
+/* Bottom TAP TO WATCH */
 .preview-caption {
   position: absolute;
   bottom: 18%;
@@ -694,13 +721,14 @@ h2 {
   font-weight: 700;
 
   letter-spacing: .22em;
+
   text-transform: uppercase;
 
   text-shadow: 0 2px 8px rgba(0,0,0,.5);
 }
 
-/* Small screens */
 @media (max-width: 480px) {
+
   .preview-video-card {
     width: 82%;
     max-width: 330px;
@@ -715,6 +743,23 @@ h2 {
     height: 68px;
     font-size: 24px;
   }
+
+  .name-hotspot .tag {
+        font-size: 12px;
+    }
+
+    .surprise-hotspot .tag {
+        font-size: 11px;
+    }
+
+    .map-hotspot .tag {
+        font-size: 12px;
+    }
+
+    .journey-hotspot .tag {
+        font-size: 10px;
+    }
+
 }
 
 .copyright {
@@ -791,27 +836,33 @@ h2 {
     </div>
 
     <!-- BLURRED VIDEO PREVIEW -->
-  <div class="preview-video-card" id="previewVideoCard">
-    <video
-      class="preview-video"
-      id="previewVideo"
-      src="assets/1793152038207.mp4"
-      muted
-      playsinline
-      preload="metadata">
-    </video>
+    <div class="preview-video-card" id="previewVideoCard">
 
-    <div class="preview-overlay">
+      <video
+        class="preview-video"
+        id="previewVideo"
+        src="assets/1793152038207.mp4"
+        muted
+        playsinline
+        preload="metadata">
+      </video>
+
+      <!-- Only visible before playback -->
+      <div class="preview-overlay" id="previewOverlay">
         <div class="preview-text">A little memory awaits...</div>
 
-        <button class="preview-play" id="previewPlay" aria-label="Play video">
+        <button
+          class="preview-play"
+          id="previewPlay"
+          aria-label="Play video">
           ▶
         </button>
 
         <div class="preview-caption">
-          Tap to watch
+          TAP TO WATCH
         </div>
       </div>
+
     </div>
 
     <div class="footer">
